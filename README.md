@@ -44,6 +44,41 @@ ng g c leaflet
 
 after that add the component to the app-routing-module if needed
 
+### Installation
+
+Install the package and its peer dependencies via npm (or yarn):
+
+````
+npm install leaflet
+npm install @asymmetrik/ngx-leaflet
+````
+
+If you intend to use this library in a typescript project (utilizing the typings), you'll need to install the leaflet
+typings:
+``
+@types/leaflet@1.7.4
+``
+
+if you want markers to show up correctly on your maps, you need to configure Angular CLI to expose the Leaflet assets to
+your application. To do this, make the following additional changes to angular.json under both the "build" and "test"
+sections:
+
+````
+{
+  ...
+  "assets": [
+    {
+      "glob": "**/*",
+      "input": "./node_modules/leaflet/dist/images",
+      "output": "leaflet/"
+    },
+    "src/assets",
+    "src/favicon.ico"
+  ],
+  ...
+}
+````
+
 ### Add leaflet.css to angular.json
 
 ````
