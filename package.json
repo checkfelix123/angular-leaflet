@@ -21,8 +21,11 @@
     "@angular/platform-browser-dynamic": "~11.0.5",
     "@angular/router": "~11.0.5",
     "@asymmetrik/ngx-leaflet": "^8.1.0",
+    "@asymmetrik/ngx-leaflet-draw": "^6.0.1",
     "firebase": "^7.0 || ^8.0",
     "leaflet": "^1.7.1",
+    "leaflet-draw": "^1.0.4",
+    "leaflet-lasso": "^2.2.4",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"

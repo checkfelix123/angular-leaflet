@@ -1,5 +1,6 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
-import {icon, latLng, Map, marker, point, polyline, tileLayer} from 'leaflet';
+import {Component} from '@angular/core';
+import {FeatureGroup, featureGroup, icon, latLng, marker, polyline, tileLayer} from 'leaflet';
+
 
 @Component({
   selector: 'app-leaflet',
@@ -7,6 +8,29 @@ import {icon, latLng, Map, marker, point, polyline, tileLayer} from 'leaflet';
   styleUrls: ['./leaflet.component.scss']
 })
 export class LeafletComponent {
+
+  drawItems: FeatureGroup = featureGroup();
+
+  drawOptions = {
+    position: 'topright',
+    draw: {
+      polyline: false,
+      circle: {
+        shapeOptions: {
+          color: '#d4af37'
+        }
+      },
+      rectangle: {
+        shapeOptions: {
+          color: '#85bb65'
+        }
+      }
+    },
+    edit: {
+      featureGroup: this.drawItems
+    }
+  };
+
 // Define our base layers so we can reference them multiple times
   streetMaps = tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     detectRetina: true,

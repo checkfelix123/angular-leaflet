@@ -79,6 +79,24 @@ sections:
 }
 ````
 
+### add leaflet-draw
+
+``
+npm install leaflet-draw
+``
+
+``
+npm install @asymmetrik/ngx-leaflet-draw
+``
+
+If you intend to use this library in a typescript project (utilizing the typings), you will need to also install the
+leaflet typings via npm
+
+````
+npm install --save-dev @types/leaflet
+npm install --save-dev @types/leaflet-draw
+````
+
 ### Add leaflet.css to angular.json
 
 ````
