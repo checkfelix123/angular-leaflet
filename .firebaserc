@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "angular-leaflet-739af": {
+      "hosting": {
+        "angular-leaflet": [
+          "angular-leaflet-739af"
+        ]
+      }
+    }
+  }
+}
