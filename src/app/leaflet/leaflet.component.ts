@@ -1,12 +1,18 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
-import {icon, latLng, Map, marker, point, polyline, tileLayer} from 'leaflet';
+import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import * as L from 'leaflet';
+import 'leaflet-lasso';
+import {icon, latLng, Map, marker, point, polyline, PolylineOptions, tileLayer} from 'leaflet';
+
+declare var leafletJs: any;
 
 @Component({
   selector: 'app-leaflet',
   templateUrl: './leaflet.component.html',
   styleUrls: ['./leaflet.component.scss']
 })
-export class LeafletComponent {
+export class LeafletComponent implements OnInit {
+
+
 // Define our base layers so we can reference them multiple times
   streetMaps = tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     detectRetina: true,
@@ -67,12 +73,16 @@ export class LeafletComponent {
       'Mt. Rainier Climb Route': this.route
     }
   };
-
-
   // Set the initial set of displayed layers (we could also use the leafletLayers input binding for this)
   options = {
     layers: [this.streetMaps, this.route, this.summit, this.paradise],
     zoom: 7,
     center: latLng([46.879966, -121.726909])
   };
+
+  ngOnInit(): void {
+    // tslint:disable-next-line:no-unused-expression
+    new leafletJs();
+  }
 }
+

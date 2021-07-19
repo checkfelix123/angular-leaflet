@@ -79,6 +79,12 @@ sections:
 }
 ````
 
+### lasso
+
+````
+npm install leaflet-lasso
+````
+
 ### Add leaflet.css to angular.json
 
 ````

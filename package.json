@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve -o",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -23,6 +23,8 @@
     "@asymmetrik/ngx-leaflet": "^8.1.0",
     "firebase": "^7.0 || ^8.0",
     "leaflet": "^1.7.1",
+    "leaflet-lasso": "^2.2.4",
+    "leaflet-lassoselect": "github:imperialcollegelondon/leaflet-lassoselect",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
