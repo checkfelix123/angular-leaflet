@@ -1,8 +1,5 @@
-<input id="btn" type="button" value="press me" id="toggleLasso">
+<input id="btn" type="button" value="press me" id="toggleLasso" (click)="toggleLasso()">
 
 <div class="map"
-     id="mapId"
-     leaflet
-     [leafletOptions]="options"
-     [leafletLayersControl]="layersControl">
+     #mapID>
 </div>

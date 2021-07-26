@@ -1,30 +1,37 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet-lasso';
 import {icon, latLng, Map, marker, point, polyline, PolylineOptions, tileLayer} from 'leaflet';
+import { LassoControl } from 'leaflet-lasso';
+import { TestBed } from '@angular/core/testing';
 
-declare var leafletJs: any;
 
 @Component({
   selector: 'app-leaflet',
   templateUrl: './leaflet.component.html',
   styleUrls: ['./leaflet.component.scss']
 })
-export class LeafletComponent implements OnInit {
+export class LeafletComponent implements AfterViewInit  {
+
+ private lassoControl!: LassoControl;
 
 
+
+ @ViewChild('mapID') map!: ElementRef;
 // Define our base layers so we can reference them multiple times
-  streetMaps = tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+ private streetMaps = tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     detectRetina: true,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   });
-  wMaps = tileLayer('http://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png', {
+ private wMaps = tileLayer('http://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png', {
     detectRetina: true,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   });
 
   // Marker for the top of Mt. Ranier
-  summit = marker([46.8523, -121.7603], {
+ private summit = marker([46.8523, -121.7603], {
+  draggable: true, //Make draggable
+  autoPan: true,
     icon: icon({
       iconSize: [25, 41],
       iconAnchor: [13, 41],
@@ -34,7 +41,8 @@ export class LeafletComponent implements OnInit {
   });
 
   // Marker for the parking lot at the base of Mt. Ranier trails
-  paradise = marker([46.78465227596462, -121.74141269177198], {
+  private paradise = marker([46.78465227596462, -121.74141269177198], {
+     draggable: true, //Make draggable
     icon: icon({
       iconSize: [25, 41],
       iconAnchor: [13, 41],
@@ -45,7 +53,7 @@ export class LeafletComponent implements OnInit {
   });
 
   // Path from paradise to summit - most points omitted from this example for brevity
-  route = polyline([[46.78465227596462, -121.74141269177198],
+  private route = polyline([[46.78465227596462, -121.74141269177198],
     [46.80047278292477, -121.73470708541572],
     [46.815471360459924, -121.72521826811135],
     [46.8360239546746, -121.7323131300509],
@@ -76,13 +84,64 @@ export class LeafletComponent implements OnInit {
   // Set the initial set of displayed layers (we could also use the leafletLayers input binding for this)
   options = {
     layers: [this.streetMaps, this.route, this.summit, this.paradise],
-    zoom: 7,
+    zoom: 10,
     center: latLng([46.879966, -121.726909])
   };
 
-  ngOnInit(): void {
-    // tslint:disable-next-line:no-unused-expression
-    new leafletJs();
+ 
+   ngOnInit(): void {
+    const mapElement = L.map(this.map.nativeElement, this.options);
+    this.summit.on('dragend', (e) => {
+      // var marker = e.target;
+      // var position = marker.getLatLng();
+      
+      // mapElement.panTo(new L.LatLng(position.lat, position.lng));
+    });
+    
+    
+   }
+   private setSelectedLayers(layers: any) {
+
+    layers.forEach((layer: { setIcon: (arg0: L.Icon.Default) => void; setStyle: (arg0: { color: string; }) => void; }) => {
+        if (layer instanceof L.Marker) {
+            
+            layer.setIcon(new L.Icon.Default({ className: 'selected '}));
+        } else if (layer instanceof L.Path) {
+            layer.setStyle({ color: '#ff4620' });
+        }
+    });
+
+}
+
+  ngAfterViewInit() {
+
+    L.Icon.Default.imagePath = "/assets/";
+
+    
+    const mapElement = L.map(this.map.nativeElement, this.options);
+
+  
+    L.control.layers(this.layersControl.baseLayers, this.layersControl.overlays).addTo(mapElement);
+
+    this.lassoControl = L.control.lasso().addTo(mapElement); 
+
+
+    mapElement.on('lasso.finished', (event: any) => {
+      this.setSelectedLayers(event.layers);
+     })
+   
   }
+
+  
+  toggleLasso(){
+    if (this.lassoControl.enabled()) {
+      this.lassoControl.disable();
+    } else {
+      this.lassoControl.enable();
+    }
+  }
+  lassoFinished(){
+  }
+  
 }
 
